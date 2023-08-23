@@ -42,7 +42,7 @@ def decode(cipher, shifting):
     return text
 
 layout =[
-[sg.Text('Shift value from 1 till 25:'), sg.Input(key='shift_value', size=(4,1))],
+[sg.Text('Shift value from 1 till 25:'), sg.Input(key='shift_value', size=(4,1)) ],
 [sg.Text(size=(40,1), key='erro_shift')],
 [sg.Text('Message', size=(49,1)) ,sg.Text('Encrypted/Decrypted Message')],
 [sg.Multiline(key='text', size=(45,30)),sg.Multiline(key='result', size=(45,30))],
@@ -83,7 +83,16 @@ while True:
         else:
             window['erro_shift'].update(f'Incorrect shift value!')
     if event == 'Copy':
-        pass
+        try:
+            # window['erro_shift'].update(f'Message copied to clipboard successfully',text_color='yellow')
+            if not sg.clipboard_set(values['result']):
+                raise ValueError('empty string')
+            # elif sg.clipboard_set(values['result']) is None:
+            #     copy = values['result']  
+            #     print(copy)
+            
+        except ValueError as e:
+            window['erro_shift'].update(f'Generate message, then COPY it.',text_color='yellow')
 
 window.close()
 
